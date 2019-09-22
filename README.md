@@ -1,8 +1,8 @@
 # CppIntroduction
 Temporary repository for the 2019 course of Fluidodinamica Numerica
 ## LECTURE CODE
-1. [C/C++ basics: types, pointers, functions and memory](1\)\ Types\ and\ memory/)
-2. [Classes and Object Oriented Programming](2\)\ Classes/)
+1. [C/C++ basics: types, pointers, functions and memory]("1) Types and memory"/)
+2. [Classes and Object Oriented Programming](2) Classes)
 
 ## REFERENCE MATERIAL
 #### textbooks:
