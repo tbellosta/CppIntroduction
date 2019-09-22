@@ -1,101 +1,88 @@
-/*
-  REFERENCE MATERIAL
-    textbooks:
-      THE C++ PROGRAMMING LANGUAGE - Bjarne Stroustrup
-      C++ PRIMER - Lippman,Lajoie,Moo
-
-    online:
-      cppreference.com
-      cplusplus.com
-
-  COMPILER INSTALLATION
-    LINUX
-      $ sudo apt install build-essential
-      $ sudo apt install cmake
-    MAC
-      install xcode from appstore, then type on terminal
-        $ xcode-select --install
-      install homebrew from http://brew.sh, then
-        $ brew install cmake
-
-  TEXT EDITOR (w/ syntax highlight for c++)
-    atom (macOS/Linux)
-    sublimeText (Linux)
-    gedit (Linux)
-
-  IDE (integrated development enviroinment)
-    CLion (macOS/Linux free license from POLIMI website)
-    Xcode (macOS)
-    VisualStudio (Windows)
-
-  VIRTUAL MACHINE
-    VirtualBox
-
-*/
-
-
 #include "function.h"
 #include <iostream>
 
+#include "vettore.h"
+#include "vector"
+
 int main(){
 
-  // simple types and pointers
+    /**
+     * Playing with the first class we created.
+     * Vettore is a dynamic array of doubles (see code from first lecture)
+     * - memory management (allocation/deallocation) is hidden behind the curtains
+     * - operator overloading for simple arithmetic operations
+     */
 
-  int intero, int2;   // defines two integer variables
+    std::cout << "\n\nCLASS VETTORE\n";
 
-  int* ptrInt;        // defines pointer to integer variable
-  float* ptrFloat;    // defines pointer to float variable
+    // creating an empty vector (v1) and two vectors of 5 elements
+    // v1,v2,v3 are three OBJECTS of CLASS vettore
+    vettore v1, v2(5), v3(5);
 
-  intero = 1;         // assign value to integer variable
-  ptrInt = &intero;   // assign address of variable intero to pointer ptrInt
+    // setting the 4th component of v2 and v3
+    v3[3] = 2.0;
+    v2[3] = 5.0;
 
-  *ptrInt = 15;       // chage the value of the variable pointed to by ptrInt to 15
-                    // same as intero = 15;
+    // adding a new element to both v2 and v3
+    v2.push_back(5.0); // adding a new element = 5 at the end of v2
+    v3.push_back(8.0); // adding a new element = 8 at the end of v3
 
-  ptrInt = &int2;     //ptrInt now points to int2;
-  *ptrInt = 15;       // chage the value of the variable int2 to 15
+    // setting v1 equals to v2 + 2v3
+    v1 = v2 + v3*2.0;
 
-  int& refInt = intero;             // reference (AKA alias) to variable intero
-
-  int fact = factorial(intero);     // defines integer variable and assigns it to
-                                  //the result of function factorial
-
-  std::cout << "Value of factorial: " << fact << "\n";
-  std::cout << "Integer value: "<< intero << "\n";
+    // prints the elements of v1
+    std::cout << v1 << std::endl;
 
 
-  const int dim = 10;  // constant dimension of array
-  double array[dim];   // defines stack array (dimension is known at compile-time)
-  double matrix[3][3]; // defines stack matrix (dimension is known at compile-time)
+    /**
+     * Polymorphism and templates.
+     *
+     * C++ allows us to define multiple functions with different parameters using the same name i.e. polymorphism
+     * In the following, function norm computes the two-norm of a vector or the absolute value of a double depending
+     * on the type that is passed to the function.
+     */
 
-  fillArray(array, dim);
-  fillMatrix(matrix,3);
+    std::cout << "\n\n\nPOLYMORPHISM FUNCTION NORM\n\n";
 
-  std::cout << "Valore array: \t";
-  for (int i = 0; i < dim; i++) {
-    std::cout << array[i] << " ";
-  }
-  std::cout << std::endl; // ends line
+    double d = 4.12634564353242;
 
-  // Define dynamically allocated arrays (on the heap, dimension known at runtime)
-  int dimDyn = 15;                   // not const, can be given by user or result of computation
-  double* data = new double[dimDyn]; // allocate array, doesn't go out of scope
-  delete[] data;                     // free array
+    std::cout << norm(d) << std::endl;  // abs of d
+    std::cout << norm(v1) << std::endl;  // two-norm of v1
 
-  int* intDyn = new int;  // declare simple int on the heap
-  delete intDyn;          // delets the int
+    /**
+     * In the following polymorphism is used to define three different functions absVal that return
+     * the absolute value of an int, a float or a double. The functions do the exact same thing but work
+     * on different types.
+     *
+     * The use of templates allows to define absVal so that it is independent on the type of data. Templates are
+     * parametric functions in which one or more parameters can change. In the case of the absVal function the
+     * parameter that is allowed to change is the type of data that we pass to the function (and is returned by it).
+     * This allows to define only one template function instead of the three independent functions we defined above.
+     * The parameters of a template function must be specified in between <> (see below)
+     */
 
-  // declares matrix of wanted size on the heap
-  int nRows = 15;                          // number of rows/dimension of a column
-  int nColumns = 10;                       // number of columns/dimension of a row
-  double** matrixDyn = new double*[nRows]; // declares array of pointers to double
-  for (int i = 0; i < nRows; i++) {
-    matrixDyn[i] = new double[nColumns]; // each pointer of the array points to the
-                                         // block of memory storing a given row
-  }
+    std::cout << "\n\n\nPOLYMORPHISM FUNCTION ABSVAL\n\n";
 
-  fillDynamicMatrix(matrixDyn, nRows, nColumns);
+    int i = -4;
+    float f = -4.3456363f;
 
-  std::cout << "matrixDyn[2][4]: \t" << matrixDyn[2][4] << std::endl; // prints element [2,4] of the matrix
+    // using polymorphism (the name is the same (absVal) but the function definition is different)
+    std::cout << absVal(i) << std::endl;
+    std::cout << absVal(f) << std::endl;
+    std::cout << absVal(d) << std::endl;
+
+    std::cout << "\n\n\nTEMPLATE FUNCTION ABSVAL\n\n";
+
+    // same thing but with templates (we defined only one function)
+    std::cout << "abs of integer: " << absVal<int>(i) << std::endl;
+    std::cout << "abs of float: " << absVal<float>(f) << std::endl;
+    std::cout << "abs of double: " << absVal<double>(d) << std::endl;
+
+
+
+
+
+
+
 
 }

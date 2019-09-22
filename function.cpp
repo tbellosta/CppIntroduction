@@ -1,44 +1,48 @@
+#include <cmath>
 #include "function.h"
 
-int factorial(int& integer){
-   // computes the factorial of variable integer
-   // and sets it to zero
+int absVal(const int &value){
 
-   int fact = 1;
-   for(int i = integer; i > 0; i--){
-     fact = fact * i;
-   }
+    std::cout << "abs function for int type" << std::endl;
 
-  integer = 0;
+    if (value >= 0) return value;
+    else return -value;
 
-  return fact;
-}
-
-void fillArray(double array[], int dimension){
-   // sets all elements of array to zero
-   for(int i = 0; i < dimension; i++){
-     array[i] = 0.0;
-   }
 
 }
 
-void fillMatrix(double matrix[][3],int nRows){
-  // sets all elements of static matrix (declared on stack) to zero
-  // only for matrices w/ 3 columns
-  for(int i = 0; i < nRows; i++){
-    for (int j = 0; j < 3; j++) {
-      matrix[i][j] = 0.0;
+float absVal(const float &value) {
+
+    std::cout << "abs function for float type" << std::endl;
+
+    if (value >= 0) return value;
+    else return -value;
+
+}
+
+double absVal(const double &value) {
+
+    std::cout << "abs function for double type" << std::endl;
+
+    if (value >= 0) return value;
+    else return -value;
+
+}
+
+double norm(const vettore &vett){
+
+    double norm = 0;
+    for (int i = 0; i < vett.getDimension(); ++i) {
+        norm += vett[i] * vett[i];
     }
-  }
+    norm = sqrt(norm);
+
+    return norm;
+
 }
 
-void fillDynamicMatrix(double** matrix,int nRows, int nColumns){
-  // sets all elements of dynamic matrix (declared on heap) to zero
-  // works w/ any size of matrix
-  for(int i = 0; i < nRows; i++){
-    for (int j = 0; j < nColumns; j++) {
-      matrix[i][j] = 0.0;
-    }
-  }
+double norm(const double &value) {
+
+    return absVal(value);
 
 }
