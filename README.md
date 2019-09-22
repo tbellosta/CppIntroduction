@@ -11,6 +11,8 @@ Temporary repository for the 2019 course of Fluidodinamica Numerica
 #### online:
 - cppreference.com
 - cplusplus.com
+#### linux commands:
+- [Linux cheat sheet](Linux_cheat_sheet.pdf)
 ## COMPILER INSTALLATION
 #### LINUX
 ```
