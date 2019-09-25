@@ -31,6 +31,7 @@ public: // public members, can be accessed also from the outside
     // the following operators allow to use simple arithmetic operations between vectors
     // see main.cpp for examples
     vettore& operator=(const vettore& rhs);
+
     vettore operator+(const vettore& rhs);  // vector + vector iff size is the same
     vettore operator-(const vettore& rhs);  // vector - vector iff size is the same
     vettore operator*(const double& rhs);   // vector + scalar

@@ -34,9 +34,9 @@ vettore::vettore(){
 
 }
 
-vettore::vettore(int dim){
+vettore::vettore(int dimension){
 
-    this->dimension = dim;
+    this->dimension = dimension;
     this->allocateMemory();
     this->setToZero();
 

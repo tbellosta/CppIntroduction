@@ -19,16 +19,18 @@ int main(){
     // v1,v2,v3 are three OBJECTS of CLASS vettore
     vettore v1, v2(5), v3(5);
 
+
     // setting the 4th component of v2 and v3
     v3[3] = 2.0;
     v2[3] = 5.0;
 
     // adding a new element to both v2 and v3
-    v2.push_back(5.0); // adding a new element = 5 at the end of v2
-    v3.push_back(8.0); // adding a new element = 8 at the end of v3
+//    v2.push_back(5.0); // adding a new element = 5 at the end of v2
+//    v3.push_back(8.0); // adding a new element = 8 at the end of v3
 
     // setting v1 equals to v2 + 2v3
     v1 = v2 + v3*2.0;
+
 
     // prints the elements of v1
     std::cout << v1 << std::endl;
@@ -77,6 +79,14 @@ int main(){
     std::cout << "abs of integer: " << absVal<int>(i) << std::endl;
     std::cout << "abs of float: " << absVal<float>(f) << std::endl;
     std::cout << "abs of double: " << absVal<double>(d) << std::endl;
+
+
+    vettore vv(15);
+
+    Grid mesh6;
+
+    std::vector<mesh> vMesh(5);
+
 
 
 

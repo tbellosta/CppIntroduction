@@ -13,6 +13,7 @@ Temporary repository for the 2019 course of Fluidodinamica Numerica
 - cplusplus.com
 #### linux commands:
 - [Linux cheat sheet](Linux_cheat_sheet.pdf)
+
 ## COMPILER INSTALLATION
 #### LINUX
 ```

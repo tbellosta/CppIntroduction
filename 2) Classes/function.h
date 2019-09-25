@@ -24,7 +24,7 @@ double norm(const vettore& value);
  * with int. Therefore, as long as the internal operations remain the same, the use of template functions can relieve us
  * from defining one function for each datatype as we did before.
  */
-template<typename T>
+template<class T>
 T absVal(const T& value){
 
     std::cout << "template abs function" << std::endl;
