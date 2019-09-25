@@ -3,6 +3,7 @@ Temporary repository for the 2019 course of Fluidodinamica Numerica
 ## LECTURE CODE
 1. [C/C++ basics: types, pointers, functions and memory](1%29%20Types%20and%20memory/)
 2. [Classes and Object Oriented Programming](2%29%20Classes/)
+3. [Finite Differences](3%29%20Derivatives%20computation)
 
 ## REFERENCE MATERIAL
 #### textbooks:
