@@ -18,11 +18,11 @@ main.o: main.cpp functions.h Grid.h
 functions.o: functions.cpp functions.h
 	g++ $(FLAGS) -c functions.cpp
 
-## COMPILE VETTORE FILE generates Grid.o
+## COMPILE GRID FILE generates Grid.o
 Grid.o: Grid.cpp Grid.h
 	g++ $(FLAGS) -c Grid.cpp
 
-## COMPILE VETTORE FILE generates FiniteDifferenceClass.o
+## COMPILE FINITEDIFFERENCECLASS FILE generates FiniteDifferenceClass.o
 FiniteDifferenceClass.o: FiniteDifferenceClass.cpp FiniteDifferenceClass.h Grid.h
 	g++ $(FLAGS) -c FiniteDifferenceClass.cpp
 

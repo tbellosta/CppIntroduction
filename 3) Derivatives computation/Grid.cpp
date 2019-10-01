@@ -17,7 +17,6 @@
 Grid::Grid(const double &x0, const double &xf, const int &nNodes){
 
     // initialize uniform grid
-
     this->buildUniformGrid(x0, xf, nNodes);
 
 }

@@ -15,24 +15,80 @@
 #ifndef CPPINTRODUCTION_FINITEDIFFERENCECLASS_H
 #define CPPINTRODUCTION_FINITEDIFFERENCECLASS_H
 
+
 #include "Grid.h"
 
+enum class FDType {UNKNOWN, FORWARD, CENTERED};
+
+
+/**
+ * Interface class for different FD schemes
+ */
 class FiniteDifferenceClass {
+
+protected:
     Grid* mesh;
+
+public:
+
+    FiniteDifferenceClass();
+    virtual ~FiniteDifferenceClass() {};
+
+    // links the mesh iff object was initialized with the empty constructor
+    void assignGridPointer(Grid *mesh);
+
+    // computes the derivative at node index of function fun
+    virtual double computeDerivative(int index, double(*fun)(double)) = 0;
+};
+
+
+
+class CenteredFiniteDifferenceClass : public FiniteDifferenceClass{
+
 public:
 
     /**
-     * As in class Grid, two constructors to comply w/ two different coding styles.
-     * Check comment in Grid.h file
-     */
-    FiniteDifferenceClass();              // empty constructor, method assignGridPointer mush be called afterwards
-    FiniteDifferenceClass(Grid* mesh);    // "full" constructor, already links the mesh
+         * As in class Grid, two constructors to comply w/ two different coding styles.
+         * Check comment in Grid.h file
+         */
+    // empty constructor, method assignGridPointer mush be called afterwards
+    CenteredFiniteDifferenceClass() {};
+    CenteredFiniteDifferenceClass(Grid *mesh);
 
-    void assignGridPointer(Grid* mesh);   // links the mesh iff object was initialized with the empty constructor
-
-    double computeDerivative(int index, double(*fun)(double));  // computes the derivative at node index of function fun
+    double computeDerivative(int index, double(*fun)(double));
 
 
+};
+
+class ForwardFiniteDifferenceClass : public FiniteDifferenceClass{
+
+public:
+
+    ForwardFiniteDifferenceClass(){};
+    ForwardFiniteDifferenceClass(Grid *mesh);
+
+    double computeDerivative(int index, double(*fun)(double));
+
+
+};
+
+
+class FDSolver {
+
+private:
+
+    FiniteDifferenceClass* numericalMethod;
+
+public:
+
+    FDSolver();
+    FDSolver(FDType finiteDiffType);
+    ~FDSolver();
+
+    void setFDType(FDType type);
+
+    std::vector<double> comuputeDerivative(Grid& grid, double(*fun)(double));
+    double comuputeL2Norm(const std::vector<double> &numericalDeiv, Grid &grid, double(*fun)(double));
 };
 
 #endif //CPPINTRODUCTION_FINITEDIFFERENCECLASS_H

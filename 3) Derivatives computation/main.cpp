@@ -14,31 +14,62 @@
 //============================================================
 #include <cmath>
 #include <iostream>
+#include <ostream>
+#include <fstream>
+
 #include "Grid.h"
 #include "FiniteDifferenceClass.h"
 #include "functions.h"
 
 int main(){
 
-    double x0   = 1.0;
-    double xf   = 5.0;
-    int nPoints = 1000;
 
-    Grid mesh(x0, xf, nPoints);                              // discretize [1, 5] w/ 1000 points
-
-    FiniteDifferenceClass deriv(&mesh);                      // initialize object to compute FD derivatives
-
-    std::vector<double> derivative(mesh.nodes.size());       // initialize vector to store FD derivatives
-    std::vector<double> exactDerivative(mesh.nodes.size());  // initialize vector to store exact derivatives
-
-    double L2Err = 0;                                        // initialize variable to store L2 norm of the error
+    std::vector<int> gridNodes = {10, 100, 1000, 10000, 100000};                // initialize vector of grid sizes
+    std::vector<double> L2vector;                                               // declare vector to store L2 error
 
 
-    // compute L2 error,
-    // the numerical derivative at node i of function f is computed as:
-    //      derivative[i] = deriv.computeDerivative(i, f);
+    std::vector<double> derivative;                                             // declare vector to store FD derivatives
+    Grid mesh;                                                                  // declare mesh
 
-    std::cout << "ERROR: " << L2Err << std::endl;
+    FDType FiniteDifferenceScheme = FDType::CENTERED;
+
+
+    for (int h = 0; h < gridNodes.size(); ++h) {
+
+        double x0 = 1.0;
+        double xf = 5.0;
+        int nPoints = gridNodes[h];
+
+        mesh.buildUniformGrid(x0, xf, nPoints);                                 // discretize [1, 5] w/ 1000 points
+
+        FDSolver solver(FiniteDifferenceScheme);                                // initialize solver class
+
+        derivative = solver.comuputeDerivative(mesh, testFunction);             // compute the FD derivative
+
+        double L2Err = solver.comuputeL2Norm(derivative, mesh, dTestFunction);  // compute L2 error
+
+        std::cout << "ERROR: " << L2Err << std::endl;                           // print L2 error
+
+        L2vector.push_back(L2Err);                                              // add error to vector
+    }
+
+
+    // print result to file for plotting convergence rate with gnuplot
+    std::ofstream file;
+
+    file.open("data.txt");
+
+    for (int h = 0; h < gridNodes.size(); ++h) {
+
+        // first column : number of points (x axis)
+        // second column: ~h
+        // third column : ~h^2
+        // fourth column: L2 error
+        file << gridNodes[h] << " " << 1.00/((long)gridNodes[h]) << " " << 1.00/((long)gridNodes[h] * (long)gridNodes[h]) << " " << L2vector[h] << std::endl;
+
+    }
+
+    file.close();
 
 }
 
