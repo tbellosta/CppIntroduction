@@ -25,6 +25,7 @@
  *  cells index        0     1                i-1    i    i+1               f-2   f-1
  */
 class Grid {
+
 public:
     std::vector<double> nodes;
 

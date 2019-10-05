@@ -31,6 +31,8 @@ protected:
 
 public:
 
+//    Grid* mesh;
+
     FiniteDifferenceClass();
     virtual ~FiniteDifferenceClass() {};
 
@@ -87,8 +89,8 @@ public:
 
     void setFDType(FDType type);
 
-    std::vector<double> comuputeDerivative(Grid& grid, double(*fun)(double));
-    double comuputeL2Norm(const std::vector<double> &numericalDeiv, Grid &grid, double(*fun)(double));
+    std::vector<double> computeDerivative(Grid &grid, double(*fun)(double));
+    double computeL2Norm(const std::vector<double> &numericalDeiv, Grid &grid, double(*fun)(double));
 };
 
 #endif //CPPINTRODUCTION_FINITEDIFFERENCECLASS_H

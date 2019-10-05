@@ -142,7 +142,7 @@ FDSolver::~FDSolver() {
     delete this->numericalMethod;
 }
 
-std::vector<double> FDSolver::comuputeDerivative(Grid &grid, double (*fun)(double)) {
+std::vector<double> FDSolver::computeDerivative(Grid &grid, double (*fun)(double)) {
 
     std::vector<double> derivative(grid.nodes.size());
 
@@ -156,7 +156,7 @@ std::vector<double> FDSolver::comuputeDerivative(Grid &grid, double (*fun)(doubl
 }
 
 double
-FDSolver::comuputeL2Norm(const std::vector<double> &numericalDeriv, Grid &grid, double (*fun)(double)) {
+FDSolver::computeL2Norm(const std::vector<double> &numericalDeriv, Grid &grid, double (*fun)(double)) {
 
     double L2 = 0;
 

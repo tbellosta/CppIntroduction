@@ -21,8 +21,8 @@
 #include "FiniteDifferenceClass.h"
 #include "functions.h"
 
-int main(){
 
+int main(){
 
     std::vector<int> gridNodes = {10, 100, 1000, 10000, 100000};                // initialize vector of grid sizes
     std::vector<double> L2vector;                                               // declare vector to store L2 error
@@ -31,7 +31,7 @@ int main(){
     std::vector<double> derivative;                                             // declare vector to store FD derivatives
     Grid mesh;                                                                  // declare mesh
 
-    FDType FiniteDifferenceScheme = FDType::CENTERED;
+    FDType FiniteDifferenceScheme = FDType::FORWARD;
 
 
     for (int h = 0; h < gridNodes.size(); ++h) {
@@ -44,9 +44,9 @@ int main(){
 
         FDSolver solver(FiniteDifferenceScheme);                                // initialize solver class
 
-        derivative = solver.comuputeDerivative(mesh, testFunction);             // compute the FD derivative
+        derivative = solver.computeDerivative(mesh, testFunction);             // compute the FD derivative
 
-        double L2Err = solver.comuputeL2Norm(derivative, mesh, dTestFunction);  // compute L2 error
+        double L2Err = solver.computeL2Norm(derivative, mesh, dTestFunction);  // compute L2 error
 
         std::cout << "ERROR: " << L2Err << std::endl;                           // print L2 error
 

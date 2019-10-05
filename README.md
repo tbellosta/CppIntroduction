@@ -4,6 +4,7 @@ Temporary repository for the 2019 course of Fluidodinamica Numerica
 1. [C/C++ basics: types, pointers, functions and memory](1%29%20Types%20and%20memory/)
 2. [Classes and Object Oriented Programming](2%29%20Classes/)
 3. [Finite Differences](3%29%20Derivatives%20computation)
+4. [Linear scalar hyperbolic equation](4%29%20Linear%20scalar%20hyperbolic%20equation)
 
 ## REFERENCE MATERIAL
 #### textbooks:
