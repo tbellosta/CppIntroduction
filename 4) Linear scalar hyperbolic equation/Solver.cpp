@@ -18,9 +18,28 @@ void Solver::setInitialCondition(Solution& u_0){
 
 }
 
+void Solver::setBoundaryCondition(double &lBC) {
+    this -> leftBC = lBC;
+}
+
 void Solver::evolveSolution(double finalTime, double dt, double charSpeed, Grid* mesh){
 
   this -> numericalMethod -> setGridPointer(mesh);
+
+
+  /* charSpeed, dt, u_n, boundaryCondition
+  */
+  double time;
+  time = 0;
+  Solution u_np1;
+
+  while(time < finalTime){
+      if(time + dt > finalTime) dt = finalTime - time;
+      u_np1 = this-> numericalMethod -> computeSolution(currentSolution, dt, charSpeed, leftBC);
+      this -> currentSolution.u = u_np1.u;
+      // currentSolution = this -> numericalMethod ..
+      time += dt;
+  }
 
   /* ciclo sul tempo chiamando computeSolution a ogni istante e
    la salvo in currentSolution */

@@ -7,6 +7,7 @@ class Solver{
 
   FiniteDifferenceMethods* numericalMethod;
   Solution currentSolution;
+  double leftBC;
 
 public:
 
@@ -14,6 +15,7 @@ public:
   Solver(FiniteDifferenceMethods* ptrMethod);
 
   void setInitialCondition(Solution& u_0);
+  void setBoundaryCondition(double& leftBC);
   void setNumericalMethod(FiniteDifferenceMethods* method);
 
   void evolveSolution(double finalTime, double dt, double charSpeed, Grid* mesh);

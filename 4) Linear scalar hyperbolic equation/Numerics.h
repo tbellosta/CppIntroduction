@@ -39,6 +39,16 @@ public:
 
 };
 
+class LaxWendroff : public FiniteDifferenceMethods{
+public:
+
+  LaxWendroff();
+  LaxWendroff(Grid* mesh);
+
+  Solution computeSolution(Solution& u_n, double charSpeed, double dt, double leftBC);
+
+};
+
 
 
 #endif //CPPINTRODUCTION_NUMERICS_H
