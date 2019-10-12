@@ -9,5 +9,5 @@ PROVA
 3\)\ Derivatives\ computation/lib
 3\)\ Derivatives\ computation/data.txt
 4\)\ Linear\ scalar\ hyperbolic\ equation/BKP
-4\)\ Linear\ scalar\ hyperbolic\ equation/lib
-4\)\ Linear\ scalar\ hyperbolic\ equation/build
+4\)\ Linear\ scalar\ hyperbolic\ equation/lib/*
+4\)\ Linear\ scalar\ hyperbolic\ equation/build/*

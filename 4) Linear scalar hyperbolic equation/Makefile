@@ -1,5 +1,5 @@
 ## DEFINE SOURCE FILES
-SRC= main.cpp numerics.cpp Grid.cpp Solver.cpp
+SRC= main.cpp Numerics.cpp Grid.cpp Solver.cpp
 ## substitute .cpp with .o in files stored in variable STR
 OBJ=$(subst .cpp,.o,$(SRC))
 
@@ -14,9 +14,9 @@ main: $(OBJ)
 main.o: main.cpp Solver.h
 	g++ $(FLAGS) -c main.cpp
 
-## COMPILE NUMERICS FILE generates numerics.o
-numerics.o: numerics.cpp numerics.h Grid.h
-	g++ $(FLAGS) -c numerics.cpp
+## COMPILE NUMERICS FILE generates Numerics.o
+Numerics.o: Numerics.cpp Numerics.h Grid.h
+	g++ $(FLAGS) -c Numerics.cpp
 
 ## COMPILE GRID FILE generates Grid.o
 Grid.o: Grid.cpp Grid.h
