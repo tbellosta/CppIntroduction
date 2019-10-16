@@ -14,23 +14,6 @@
 //============================================================
 #include "GoverningEquation.h"
 
-
-Solution::Solution(int n){
-
-    this->u.resize(n);
-
-}
-
-Solution::Solution(Grid *griglia) {
-
-    this->u.resize(griglia->nodes.size());
-
-}
-
-int Solution::size() {
-    return u.size();
-}
-
 std::vector<double> InvBurgers::flux(Solution sol){
 
     int len;
@@ -46,7 +29,19 @@ std::vector<double> InvBurgers::flux(Solution sol){
 
 }
 
+std::vector<double> InvBurgers::dFlux(Solution sol){
 
+    int len;
+
+    len = sol.size();
+
+    std::vector<double> dF(len);
+
+    for (int i = 0; i < len; ++i) dF[i] =  sol.u[i];
+
+    return dF;
+
+}
 
 
 

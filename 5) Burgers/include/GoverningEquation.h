@@ -15,20 +15,7 @@
 #ifndef CPPINTRODUCTION_GOVERNINGEQUATION_H
 #define CPPINTRODUCTION_GOVERNINGEQUATION_H
 
-#include "Grid.h"
-
-class Solution {
-
-public:
-
-    std::vector<double> u;
-
-    Solution () {};
-    Solution(int n);//costruttore che inizializza un oggetto con dimensione n//
-    Solution (Grid* griglia); //definisco un oggetto di tipo soluzione legato ad una griglia//
-
-    int size();
-};
+#include "Solution.h"
 
 class GoverningEquation {
 

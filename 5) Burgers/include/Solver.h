@@ -2,22 +2,24 @@
 #ifndef CPPINTRODUCTION_SOLVER_H
 #define CPPINTRODUCTION_SOLVER_H
 
-#include "GoverningEquation.h"
+#include "NumericalFlux.h"
 
 class Solver{
-    // puntatore alla griglia //
-    Grid* ptrMesh;
 
-    //soluzione al tempo corrente//
-    Solution u_n;
+    Grid* ptrMesh; // puntatore alla griglia
 
-    //valore di CFL//
-    double CFL;
+    Solution u_n; //soluzione al tempo corrente
 
+    double CFL; //valore di CFL
 
-    //funzione che mi calcola dt noto CFL e la soluzione corrente//
+    GoverningEquation* ptrGovEquation; //puntatore all'equazione di governo
 
+    NumericalFlux* ptrFluxType; //puntatore al metodo numerico per il flusso
+
+    //funzione che mi calcola dt noto CFL e la soluzione corrente
     double computeDt();
+
+
 
 public:
 
@@ -25,16 +27,17 @@ public:
     Solver(Grid* addressMesh);
 
 
-    //metodo che iniziaizza il puntatore a grid//
+    //metodo che iniziaizza il puntatore a grid
     void setGridPointer(Grid* addressMesh);
+    void setGoverningEquation(GoverningEquation* addressEquation);
+    void setFluxType(NumericalFlux* addressFluxType);
 
     void setInitalCondition(Solution u0);
 
     void setCFL(double cfl);
 
 
-    //per la funzione serve un delta t, definizione dei flussi numerici//
-    void computeSolution();
+    void computeSolution(double tf);
 
 };
 

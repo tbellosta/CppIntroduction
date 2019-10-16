@@ -25,8 +25,10 @@
  *  cells index        0     1                i-1    i    i+1               f-2   f-1
  */
 class Grid {
+private:
 
 public:
+
     std::vector<double> nodes;
 
     /**
@@ -52,6 +54,9 @@ public:
 
     // return cell size
     double getCellSize(int i);
+
+    //funzione che rida' la dimensione del volume finito relativo al nodo index//
+    double getDualCellSize(int index);
 
 };
 

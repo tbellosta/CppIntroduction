@@ -42,7 +42,7 @@ void Grid::buildUniformGrid(const double &x0, const double &xf, const int &nNode
 
 double Grid::getCellSize(int i) {
 
-    if (i == this->nodes.size() - 1){
+    if (i >= this->nodes.size() - 1){
         // warning
     }
 
@@ -51,6 +51,34 @@ double Grid::getCellSize(int i) {
     cellSize = this->nodes[i+1] - this->nodes[i];
 
     return cellSize;
+}
+
+double Grid::getDualCellSize(int index){
+
+    if (index >= this->nodes.size()){
+        // warning
+    }
+
+    double dualCellSize;
+    int jL, jR;
+
+    if(index == 0){
+        jL = 0;
+        jR = 1;
+    }
+    else if(index == this->nodes.size() - 1){
+        jL = index - 1;
+        jR = index;
+    }
+    else{
+        jL = index - 1;
+        jR = index + 1;
+    }
+
+    dualCellSize = (nodes[jR] + nodes[jL]) / 2;
+
+    return dualCellSize;
+
 }
 
 
