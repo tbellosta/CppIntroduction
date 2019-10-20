@@ -19,8 +19,6 @@ class Solver{
     //funzione che mi calcola dt noto CFL e la soluzione corrente
     double computeDt();
 
-
-
 public:
 
     Solver();

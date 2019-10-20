@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Solver.h"
 
 int main(){
@@ -15,5 +16,6 @@ int main(){
     Solution u0(&mesh);
 
     // ...
+
 
 }

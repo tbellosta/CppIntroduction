@@ -106,10 +106,11 @@ void Solver::computeSolution(double finalTime) {
         //il vettore dei flussi sulle interfacce
         numericalFluxes = this->ptrFluxType->computeFluxes(this->ptrGovEquation,this->u_n);
 
+        int iLeft, iRight;
         for (int i = 0; i < nInterfaces ; ++i) {
 
-            int iLeft=i;
-            int iRight=i+1;
+            iLeft=i;
+            iRight=i+1;
 
             //aggiorno il valore del residuo con i flussi alle interfacce
             residuals[iRight]+= numericalFluxes[i];
