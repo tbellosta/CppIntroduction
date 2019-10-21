@@ -19,6 +19,9 @@ class Solver{
     //funzione che mi calcola dt noto CFL e la soluzione corrente
     double computeDt();
 
+    double leftBC(const Solution& uExt, const Solution& uLeft_n);
+    double rightBC(const Solution& uExt, const Solution& uRight_n);
+
 public:
 
     Solver();
@@ -36,6 +39,8 @@ public:
 
 
     void computeSolution(double tf);
+
+    Solution getSolution() {return u_n;};
 
 };
 

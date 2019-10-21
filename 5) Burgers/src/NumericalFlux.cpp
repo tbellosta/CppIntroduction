@@ -12,23 +12,26 @@
 //                   This software is distributed under the MIT license, see LICENSE.txt
 //
 //============================================================
+#include <cmath>
 #include "NumericalFlux.h"
 
-std::vector<double> RoeFlux::computeFluxes(GoverningEquation* ptrGov, Solution u_n){
-    //cosa serve: eq di governo
-    //governing equation pointer
-    //soluzione corrente
+std::vector<double> RoeFlux::computeFluxes(GoverningEquation *ptrGov, const Solution &u_n, const double &dt, const double &dx){
+    //cosa serve: eq di governo        - GoverningEquation* ptrGov
+    //            soluzione corrente   - Solution u_n
 
     int nPoints, nInterfaces, iLeft, iRight;
 
     nPoints = u_n.size();
     nInterfaces = nPoints - 1;
 
-    std::vector<double> fluxes(nPoints),  numericalFlux(nInterfaces);
+    std::vector<double> fluxes(nPoints),  numericalFlux(nInterfaces), charSpeed(nPoints);
 
-    double aRoe, a;
+    double aRoe, a, aEF;
 
-    fluxes = ptrGov-> flux(u_n);
+    fluxes    = ptrGov->flux(u_n);
+    charSpeed = ptrGov->dFlux(u_n);
+
+    const double eps = 1e-15;
 
 
     for (int i = 0; i < nInterfaces; ++i) {
@@ -36,20 +39,30 @@ std::vector<double> RoeFlux::computeFluxes(GoverningEquation* ptrGov, Solution u
         iLeft=i;
         iRight=i+1;
 
-        aRoe = (fluxes[iLeft]-fluxes[iRight]) / (u_n.u[iLeft]-u_n.u[iRight]);
 
-        if(aRoe > 0)  a = 0;
-        else          a = aRoe;
 
-        // Same as above
-        //a = (aRoe > 0) ? 0 : aRoe;
+        aRoe = (fluxes[iLeft] - fluxes[iRight]) / (u_n.u[iLeft] - u_n.u[iRight] + eps);
 
-        //flusso numerico alle Roe sull'interfaccia i-esima//
-        numericalFlux[i] = fluxes[iLeft] + a * (u_n.u[iRight] - u_n.u[iLeft]);
+        aEF = fabs(aRoe);
+
+        if(charSpeed[iLeft] < 0 && charSpeed[iRight] > 0){
+
+            aEF = ((charSpeed[iLeft] + charSpeed[iRight]) * aRoe
+                   - 2*charSpeed[iLeft]*charSpeed[iRight])
+                    / (charSpeed[iRight]-charSpeed[iLeft]);
+        }
+
+        //flusso numerico alla Roe sull'interfaccia i-esima//
+        numericalFlux[i] = 0.5*(fluxes[iLeft] + fluxes[iRight])
+                           - 0.5*aEF*(u_n.u[iRight] - u_n.u[iLeft]);
 
     }
 
     return numericalFlux;
+
+
+
+
 
 }
 

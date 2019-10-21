@@ -75,7 +75,7 @@ double Grid::getDualCellSize(int index){
         jR = index + 1;
     }
 
-    dualCellSize = (nodes[jR] + nodes[jL]) / 2;
+    dualCellSize = (nodes[jR] - nodes[jL]) / 2;
 
     return dualCellSize;
 

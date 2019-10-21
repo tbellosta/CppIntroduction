@@ -21,7 +21,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 set(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(SRC_DIR ${ROOT_DIR}/src)
 set(INC_DIR ${ROOT_DIR}/include)
-set(LIB_DIR ${ROOT_DIR}/lib)
+set(LIB_DIR ${ROOT_DIR}/lib/simplePlot)
 
 
 # ------------------------------------------------------------ Source files
@@ -29,10 +29,15 @@ file(GLOB SOURCE ${SRC_DIR}/*.cpp
         ${INC_DIR}/*.h)
 
 include_directories(
-        ${INC_DIR})
+        ${INC_DIR}
+        ${LIB_DIR}/include)
+
+link_directories(${LIB_DIR}/bin)
 
 
 # ------------------------------------------------------------ advectionEquation
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ROOT_DIR})
 
 add_executable(${PROJECT_NAME} ${SOURCE})
+target_link_libraries(${PROJECT_NAME} simplePlot)
+

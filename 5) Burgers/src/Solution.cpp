@@ -26,8 +26,26 @@ Solution::Solution(Grid *griglia) {
 
 }
 
-int Solution::size() {
+int Solution::size() const {
 
     return u.size();
+
+}
+
+Solution &Solution::operator=(const Solution &rhs) {
+
+    this->u = rhs.u;
+
+    return *this;
+
+}
+
+Solution Solution::operator[](const int &i) {
+
+    Solution out(1);
+
+    out.u[0] = this->u[i];
+
+    return out;
 
 }

@@ -28,7 +28,10 @@ public:
     Solution(int n);//costruttore che inizializza un oggetto con dimensione n//
     Solution (Grid* griglia); //definisco un oggetto di tipo soluzione legato ad una griglia//
 
-    int size();
+    int size() const;
+
+    Solution& operator=(const Solution& rhs);
+    Solution operator[](const int& nodeID);
 };
 
 
