@@ -12,6 +12,9 @@ Solver::Solver(){
     this->ptrFluxType = nullptr;
     this->ptrGovEquation = nullptr;
     this->CFL = -1;
+    this->nFrames = 10;
+    this->exactSolutionRiemann = false;
+    this->plotSolution = false;
 
     
 }
@@ -22,6 +25,9 @@ Solver::Solver(Grid* addressMesh){
     this->ptrFluxType = nullptr;
     this->ptrGovEquation = nullptr;
     this->CFL = -1;
+    this->nFrames = 10;
+    this->exactSolutionRiemann = false;
+    this->plotSolution = false;
 }
 
 void Solver::setGridPointer(Grid* addressMesh){
@@ -40,7 +46,7 @@ double Solver::computeDt(){
     double dx;
     std::vector<double> chSpeed;
 
-    const double eps = 1e-12;
+    const double eps = 1e-8;
 
 
     //calcolo la velocita' come la derivata della funzione flusso//
@@ -53,7 +59,7 @@ double Solver::computeDt(){
         //min_dt=CFL*dx/a//
 
         dx = this->ptrMesh->getDualCellSize(i);
-        dt = CFL * dx / (fabs(chSpeed[i]) + eps);
+        dt = CFL  / (max(fabs(chSpeed[i])/dx, eps));
 
         if (dt_min > dt) dt_min = dt;
 
@@ -69,7 +75,7 @@ double Solver::leftBC(const Solution &uExt, const Solution &uLeft_n) {
     double a;
     double fBC;
 
-    a = this -> ptrGovEquation -> flux(uLeft_n)[0];
+    a = this -> ptrGovEquation -> dFlux(uLeft_n)[0];
 
     if (a>0) fBC = this -> ptrGovEquation -> flux(uExt)[0];
     else fBC = this -> ptrGovEquation -> flux(uLeft_n)[0];
@@ -84,7 +90,7 @@ double Solver::rightBC(const Solution &uExt, const Solution &uRight_n) {
     double a;
     double fBC;
 
-    a = this -> ptrGovEquation -> flux(uRight_n)[0];
+    a = this -> ptrGovEquation -> dFlux(uRight_n)[0];
 
     if (a<0) fBC = this -> ptrGovEquation -> flux(uExt)[0];
     else fBC = this -> ptrGovEquation -> flux(uRight_n)[0];
@@ -120,7 +126,8 @@ void Solver::computeSolution(double finalTime) {
     int iter;
 
     GnuplotDriver driver(GNUPLOT_VIDEO);
-    driver.plot(this->ptrMesh->nodes, u_n.u);
+    if(plotSolution && exactSolutionRiemann) driver.plot(this->ptrMesh->nodes, u_n.u, this->ptrMesh->nodes, u_n.u);
+    else if(plotSolution) driver.plot(this->ptrMesh->nodes, u_n.u);
     iter = 0;
 
 
@@ -185,14 +192,62 @@ void Solver::computeSolution(double finalTime) {
 
         }
 
-        if ( !(iter % 10) ) driver.plot(this->ptrMesh->nodes, u_n.u);
-
         time+=dt;
         ++iter;
+
+        if ( !(iter % this->nFrames) && plotSolution ){
+            if(exactSolutionRiemann){
+
+                double csi;
+                vector<double> exactSolution(nPoints);
+
+                for (int i = 0; i < nPoints; ++i) {
+                    csi = (this->ptrMesh->nodes[i] - riemannData.x0) / time;
+                    exactSolution[i] = this->ptrGovEquation->exactRiemannProblem(riemannData.ul, riemannData.ur, csi).u[0];
+                }
+
+                driver.plot(this->ptrMesh->nodes, u_n.u, this->ptrMesh->nodes, exactSolution);
+
+            } else driver.plot(this->ptrMesh->nodes, u_n.u);
+        }
 
         std::cout << "ITER:\t" << iter << "\tTIME:\t" << time << "\tDT:\t " << dt << std::endl;
 
     }
+
+}
+
+void Solver::setNFrames(const unsigned short &nFrames) {
+    this->nFrames = nFrames;
+}
+
+void Solver::displayExactSolution(const bool &opt, const double &x0) {
+    this->exactSolutionRiemann = opt;
+
+
+    const int lastNodeID = (int)this->ptrMesh->nodes.size() - 1;
+
+    this->riemannData.ul.resize(1);
+    this->riemannData.ur.resize(1);
+
+    this->riemannData.x0 = x0;
+    this->riemannData.ul = this->u_n[0];
+    this->riemannData.ur = this->u_n[lastNodeID];
+}
+
+void Solver::setLimiter(FluxLimiter *ptrLim) {
+
+    // ptrFluxType must be set before calling this function
+    if (this->ptrFluxType == nullptr)
+        std::cout << "\n\n[ERROR] function Solver::setLimiter must be called after Solver::setFluxType\n\n" << std::endl;
+
+    this->ptrFluxType->setLimiter(ptrLim);
+
+}
+
+void Solver::setPlotSolution(const bool &option) {
+
+    this->plotSolution = option;
 
 }
 

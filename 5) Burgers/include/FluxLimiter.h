@@ -2,7 +2,7 @@
 //
 //      Type:        burgers include file
 //
-//      Author:      Tommaso Bellosta on 16/10/2019.
+//      Author:      Tommaso Bellosta on 27/10/2019.
 //                   Dipartimento di Scienze e Tecnologie Aerospaziali
 //                   Politecnico di Milano
 //                   Via La Masa 34, 20156 Milano, ITALY
@@ -12,28 +12,33 @@
 //                   This software is distributed under the MIT license, see LICENSE.txt
 //
 //============================================================
-#ifndef BURGERS_SOLUTION_H
-#define BURGERS_SOLUTION_H
-
-#include "Grid.h"
+#ifndef BURGERS_FLUXLIMITER_H
+#define BURGERS_FLUXLIMITER_H
 
 
-class Solution {
+class FluxLimiter {
 
 public:
 
-    std::vector<double> u;
+    virtual double phi(const double& theta) = 0;
 
-    Solution () {};
-    Solution(int n);//costruttore che inizializza un oggetto con dimensione n//
-    Solution (Grid* griglia); //definisco un oggetto di tipo soluzione legato ad una griglia//
+};
 
-    int size() const;
-    void resize(const int& dim);
+class VanLeer : public FluxLimiter {
 
-    Solution& operator=(const Solution& rhs);
-    Solution operator[](const int& nodeID) const;
+public:
+
+    double phi(const double& theta);
+
+};
+
+class MinMod : public FluxLimiter {
+
+public:
+
+    double phi(const double& theta);
+
 };
 
 
-#endif //BURGERS_SOLUTION_H
+#endif //BURGERS_FLUXLIMITER_H

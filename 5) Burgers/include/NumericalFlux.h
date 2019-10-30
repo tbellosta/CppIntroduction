@@ -16,20 +16,28 @@
 #define BURGERS_NUMERICALFLUX_H
 
 #include "GoverningEquation.h"
+#include "FluxLimiter.h"
 
 
 class NumericalFlux {
+protected:
+
+    FluxLimiter* limiter;
 
 public:
+
+    NumericalFlux();
 
     //metodo che mi restituisce un vettore che contiene il valore dei flussi alle interfacce
     virtual std::vector<double> computeFluxes(GoverningEquation *ptrGov, const Solution &u_n, const double &dt, const double &dx)=0;
 
+    void setLimiter(FluxLimiter* ptrLim);
+
 
 
 };
 
-class RoeFlux:public NumericalFlux{
+class RoeFlux : public NumericalFlux{
 
 public:
 
@@ -38,13 +46,28 @@ public:
 };
 
 
-class LWCFlux:public NumericalFlux{
-
+class LWCFlux : public NumericalFlux{
 
 public:
 
     std::vector<double> computeFluxes(GoverningEquation *ptrGov, const Solution &u_n, const double &dt, const double &dx);
 };
+
+class GodunovFlux : public NumericalFlux{
+
+public:
+
+    std::vector<double> computeFluxes(GoverningEquation *ptrGov, const Solution &u_n, const double &dt, const double &dx);
+};
+
+class UHRFlux : public NumericalFlux{
+
+public:
+    std::vector<double> computeFluxes(GoverningEquation *ptrGov, const Solution &u_n, const double &dt, const double &dx);
+
+};
+
+
 
 
 #endif //BURGERS_NUMERICALFLUX_H

@@ -40,7 +40,7 @@ Solution &Solution::operator=(const Solution &rhs) {
 
 }
 
-Solution Solution::operator[](const int &i) {
+Solution Solution::operator[](const int &i) const{
 
     Solution out(1);
 
@@ -48,4 +48,8 @@ Solution Solution::operator[](const int &i) {
 
     return out;
 
+}
+
+void Solution::resize(const int &dim) {
+    this->u.resize(dim);
 }

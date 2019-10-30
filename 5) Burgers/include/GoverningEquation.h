@@ -21,8 +21,10 @@ class GoverningEquation {
 
 public:
 
-    virtual std::vector<double> flux(Solution u)=0;
-    virtual std::vector<double> dFlux(Solution u)=0;
+    virtual std::vector<double> flux(const Solution &u) = 0;
+    virtual std::vector<double> dFlux(const Solution &u) = 0;
+
+    virtual Solution exactRiemannProblem(const Solution& ul, const Solution& ur, const double& csi) = 0;
 
 
 
@@ -32,8 +34,10 @@ class InvBurgers : public GoverningEquation{
 
 public:
 
-    std::vector<double> flux(Solution u);
-    std::vector<double> dFlux(Solution u);
+    std::vector<double> flux(const Solution &u);
+    std::vector<double> dFlux(const Solution &u);
+
+    Solution exactRiemannProblem(const Solution& ul, const Solution& ur, const double& csi);
 
 };
 
