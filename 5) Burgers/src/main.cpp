@@ -13,7 +13,7 @@ int main(){
 
     x0 = 0;
     xf = 5;
-    nPoints = 200;
+    nPoints = 100;
 
     mesh.buildUniformGrid(x0, xf, nPoints);
 
@@ -37,8 +37,8 @@ int main(){
 
     Solution u0(&mesh);
 
-    uL = -2;
-    uR = 1;
+    uL = 1;
+    uR = 0;
     xJump = 2.5;
 
     for (int i = 0; i < nPoints; ++i) {
@@ -46,10 +46,10 @@ int main(){
     }
 
     CFL = 0.9;
-    tf = 0.5;
+    tf = 2.5;
 
     godunovSolver.setGridPointer(&mesh);
-//    godunovSolver.setInitalCondition(u0);
+    godunovSolver.setInitalCondition(u0);
     godunovSolver.setGoverningEquation(&govEq);
     godunovSolver.setCFL(CFL);
 
@@ -57,7 +57,7 @@ int main(){
     godunovSolver.setNFrames(3);
 //    godunovSolver.displayExactSolution(true, xJump);
 
-    std::vector<Solution> sols(3);
+    std::vector<Solution> sols(fluxes.size());
 
     for (int j = 0; j < fluxes.size(); ++j) {
 
@@ -80,10 +80,12 @@ int main(){
 //        driverV.playAnimation(mesh.nodes, 0.001);
 //    }
 
+//    std::vector<string> leg = {"ROE", "UHR"};
     std::vector<string> leg = {"ROE", "EXACT_RIEMANN", "UHR"};
     GnuplotDriver driver(GNUPLOT_PLOT);
     driver.setLegendTitles(leg);
     driver.plot(mesh.nodes, sols[0].u, mesh.nodes, sols[1].u, mesh.nodes, sols[2].u);
+//    driver.plot(mesh.nodes, sols[0].u, mesh.nodes, sols[1].u);
 
 
 
